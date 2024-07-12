@@ -9,3 +9,8 @@ services:
       - 27017:27017
     environment: #env variables to pass into the container
       MONGODB_DATABASE: ${MONGODB_NAME} # DB name as per the environment file
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    restart: always
