@@ -8,8 +8,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
+import { AuthGuard } from './guards/auth/auth.guard';
 import { AccessTokenGuard } from './guards/access-token/access-token.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { RefreshTokenIdsStorage } from './storage/refresh-token-ids.storage/refresh-token-ids.storage';
 
 @Module({
   imports: [
@@ -22,7 +24,9 @@ import { APP_GUARD } from '@nestjs/core';
       provide: HashingService,
       useClass: BcryptService,
     },
-    { provide: APP_GUARD, useClass: AccessTokenGuard },
+    { provide: APP_GUARD, useClass: AuthGuard },
+    AccessTokenGuard,
+    RefreshTokenIdsStorage,
     AuthService,
   ],
   controllers: [AuthController],
